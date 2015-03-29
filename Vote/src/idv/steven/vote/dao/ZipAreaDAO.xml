@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="idv.steven.vote.dao.ZipAreaDAO">
+	<sql id="pk">zipCode</sql>  
+     <sql id="fields">zipCode, name</sql>
+     
+    <resultMap type="idv.steven.vote.dto.ZipArea" id="zipArea">
+        <id column="zipCode" property="zipCode"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="zipArea">  
+        select <include refid="fields"/>
+        from ZipArea
+		order by zipCode
+    </select>
+    
+    <select id="find" parameterType="String" resultType="idv.steven.vote.dto.ZipArea">  
+        select <include refid="fields"/>
+        from ZipArea
+		where zipCode = #{zipCode}
+    </select>    
+    
+    <insert id="create">
+    	insert into ZipArea (<include refid="fields"/>)
+        values (#{zipCode}, #{name})
+    </insert>
+    
+    <delete id="removeAll">
+    	delete from ZipArea
+    </delete>
+</mapper>

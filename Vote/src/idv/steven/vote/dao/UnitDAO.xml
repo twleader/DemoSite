@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="idv.steven.vote.dao.UnitDAO">
+	<sql id="pk">electionID, cityName, areaName, name, station, votedNo</sql>  
+     <sql id="fields">electionID, cityName, areaName, districtName, name, station, citizen, participant, validNum, invalidNum, votedNo, votes</sql>
+     
+    <resultMap type="idv.steven.vote.dto.Unit" id="unit">
+        <id column="electionID" property="electionID"/>
+        <id column="cityName" property="cityName"/>
+        <id column="areaName" property="areaName"/>
+        <id column="name" property="name"/>
+        <id column="station" property="station"/>
+        <id column="votedNo" property="votedNo"/>
+        <result column="districtName" property="districtName"/>
+        <result column="citizen" property="citizen"/>
+        <result column="participant" property="participant"/>
+        <result column="validNum" property="validNum"/>
+        <result column="invalidNum" property="invalidNum"/>
+        <result column="votes" property="votes"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="unit">  
+        select <include refid="fields"/>
+        from Unit
+		order by <include refid="pk" />
+    </select>
+    
+    <select id="findUnit" resultType="idv.steven.vote.dto.Unit">  
+        select electionID, cityName, areaName, districtName, name, sum(citizen) as citizen, sum(participant) as participant, sum(validNum) as validNum, sum(invalidNum) as invalidNum
+        from Unit
+		where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and station = 0 and votedNo = 0
+		group by electionID, cityName, areaName, districtName, name
+    </select>
+    
+    <select id="findStation" resultType="idv.steven.vote.dto.Unit">  
+        select <include refid="fields"/>
+        from Unit
+		where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and station = #{station} and votedNo = 0
+    </select>
+    
+	<select id="findCandidateAtStation" resultType="idv.steven.vote.dto.Unit">  
+        select <include refid="fields"/>
+        from Unit
+		where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and station = #{station} and votedNo = #{votedNo}
+    </select>
+    
+    <select id="findCandidateAtUnit" resultType="idv.steven.vote.dto.Unit">  
+        select electionID, cityName, areaName, districtName, name, votedNo, sum(votes) as votes
+        from Unit
+		where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and name = #{name} and votedNo = #{votedNo}
+		group by electionID, cityName, areaName, districtName, name, votedNo, votes
+    </select>
+    
+    <insert id="createStation">
+    	insert into Unit (<include refid="fields"/>)
+        values (#{unit.electionID}, #{unit.cityName}, #{unit.areaName}, #{unit.districtName}, #{unit.name}, #{unit.station}, #{unit.citizen}, #{unit.participant}, #{unit.validNum}, #{unit.invalidNum}, 0, 0)
+    </insert>
+
+    <insert id="createCandidate">
+    	insert into Unit (<include refid="fields"/>)
+        values (#{unit.electionID}, #{unit.cityName}, #{unit.areaName}, #{unit.districtName}, #{unit.name}, #{unit.station}, 0, 0, 0, 0, #{unit.votedNo}, #{unit.votes})
+    </insert>
+    
+    <delete id="removeAll">
+    	delete from Unit
+    </delete>
+    
+    <delete id="removeUnit">
+    	delete from Unit
+    	where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and name = #{name} and votedNo = 0
+    </delete>
+    
+    <delete id="removeStation">
+    	delete from Unit
+    	where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and station = #{station} and votedNo = 0
+    </delete>
+    
+    <delete id="removeCandidateAtStation">
+    	delete from Unit
+    	where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and station = #{station} and votedNo = #{votedNo}
+    </delete>    
+</mapper>

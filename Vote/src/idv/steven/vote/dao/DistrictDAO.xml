@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="idv.steven.vote.dao.DistrictDAO">
+	<sql id="pk">electionID, cityName, areaName, name, votedNo</sql>  
+    <sql id="fields">electionID, cityName, areaName, name, citizen, participant, validNum, invalidNum, votedNo, votes</sql>
+     
+    <resultMap type="idv.steven.vote.dto.District" id="district">
+        <id column="electionID" property="electionID"/>
+        <id column="cityName" property="cityName"/>
+        <id column="areaName" property="areaName"/>
+        <id column="name" property="name"/>
+        <id column="votedNo" property="votedNo"/>
+        <result column="citizen" property="citizen"/>
+        <result column="participant" property="participant"/>
+        <result column="validNum" property="validNum"/>
+        <result column="invalidNum" property="invalidNum"/>
+        <result column="votes" property="votes"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="district">  
+        select <include refid="fields"/>
+        from District
+		order by <include refid="pk"/>
+    </select>
+    
+    <select id="findDistrict" resultType="idv.steven.vote.dto.District">  
+        select <include refid="fields"/>
+        from District
+		where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and name = #{name} and votedNo = 0
+    </select>
+    
+    <select id="findCandidate" resultType="idv.steven.vote.dto.District">  
+        select <include refid="fields"/>
+        from District
+		where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and name = #{name} and votedNo = #{votedNo}
+    </select>
+       
+    <insert id="createDistrict" parameterType="idv.steven.vote.dto.District">
+    	insert into District (<include refid="fields"/>)
+        values (#{district.electionID}, #{district.cityName}, #{district.areaName}, #{district.name}, #{district.citizen}, #{district.participant}, #{district.validNum}, #{district.invalidNum}, 0, 0)
+    </insert>
+    
+    <insert id="createCandidate">
+    	insert into District (<include refid="fields"/>)
+        values (#{district.electionID}, #{district.cityName}, #{district.areaName}, #{district.name}, 0, 0, 0, 0, #{district.votedNo}, #{district.votes})
+    </insert>
+    
+    <delete id="removeAll">
+    	delete from District
+    </delete>
+    
+    <delete id="removeDistrict">
+    	delete from District
+    	where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and name = #{name} and votedNo = 0
+    </delete>
+    
+    <delete id="removeCandidate">
+    	delete from District
+    	where electionID = #{electionID} and cityName = #{cityName} and areaName = #{areaName} and name = #{name} and votedNo = #{votedNo}
+    </delete>
+</mapper>

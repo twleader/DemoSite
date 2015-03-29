@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="idv.steven.vote.dao.AreaDAO">
+	<sql id="pk">electionID, cityName, name, votedNo</sql>  
+     <sql id="fields">electionID, cityName, name, citizen, participant, validNum, invalidNum, votedNo, votes</sql>
+     
+    <resultMap type="idv.steven.vote.dto.Area" id="area">
+        <id column="electionID" property="electionID"/>
+        <id column="cityName" property="cityName"/>
+        <id column="name" property="name"/>
+        <id column="votedNo" property="votedNo"/>
+        <result column="citizen" property="citizen"/>
+        <result column="participant" property="participant"/>
+        <result column="validNum" property="validNum"/>
+        <result column="invalidNum" property="invalidNum"/>
+        <result column="votes" property="votes"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="area">  
+        select <include refid="fields"/>
+        from Area
+		order by <include refid="pk"/>
+    </select>
+    
+    <select id="findArea" resultType="idv.steven.vote.dto.Area">  
+        select <include refid="fields"/>
+        from Area
+		where electionID = #{electionID} and cityName = #{cityName} and name = #{name}
+    </select>    
+    
+    <insert id="createArea">
+    	insert into Area (<include refid="fields"/>)
+        values (#{area.electionID}, #{area.cityName}, #{area.name}, #{area.citizen}, #{area.participant}, #{area.validNum}, #{area.invalidNum}, 0, 0);
+    </insert>
+    
+    <insert id="createCandidate">
+    	insert into Area (<include refid="fields"/>)
+        values (#{area.electionID}, #{area.cityName}, #{area.name}, 0, 0, 0, 0, #{area.votedNo}, #{area.votes});
+    </insert>
+    
+    <insert id="createSumOfArea">
+		insert into area(electionID, cityName, name, votedNo, citizen, participant, validNum, invalidNum)
+		select electionID, cityName, areaName, votedNo, sum(citizen) as citizen, sum(participant) as participant, sum(validNum) as validNum, sum(invalidNum) as invalidNum
+		from unit
+		where ElectionID = #{electionID} and cityName = #{cityName} and areaName = #{name} and votedNo = 0
+		group by electionID, cityName, areaName, votedNo
+    </insert>
+    
+    <insert id="createSumOfCandidate">
+    	insert into area(electionID, cityName, name, votedNo, votes)
+		select electionID, cityName, areaName, votedNo, sum(votes) as votes
+		from unit
+		where ElectionID = #{electionID} and cityName = #{cityName} and areaName = #{name} and votedNo != 0
+		group by electionID, cityName, areaName, votedNo
+    </insert>
+    
+    <delete id="removeAll">
+    	delete from Area
+    </delete>
+    
+    <delete id="removeArea">
+    	delete from Area
+    	where electionID = #{electionID} and cityName = #{cityName} and name = #{name}
+    </delete>
+    
+    <delete id="removeCandidate">
+    	delete from Area
+    	where electionID = #{area.electionID} and cityName = #{area.cityName} and name = #{area.name} and votedNo = #{area.votedNo}
+    </delete>    
+</mapper>
