@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+     
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    	<encoder>
+      		<pattern>%d{HH:mm:ss.SSS} %-5level %line %logger{0} - %msg%n</pattern>
+    	</encoder>
+  	</appender>
+  	
+  	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>./log/${app.name}.log</file>
+        <append>true</append>
+		<encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %line %logger{0} - %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+     <appender name="RFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./log/${app.name}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>./log/bak/${app.name}.log.%d{yyyyMMdd}</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %line %logger{0} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="com.fubon" level="DEBUG" />
+ 
+    <root level="DEBUG">
+        <appender-ref ref="RFILE" />
+    </root>
+    
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+    
+</configuration>
