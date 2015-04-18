@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import idv.steven.demo.dao.CandidateDAO;
 import idv.steven.demo.dao.ElectionDAO;
 import idv.steven.demo.dto.Election;
 
@@ -23,36 +22,48 @@ public class AreaResultAction extends ActionSupport {
 	@Autowired
 	private ElectionDAO electionDAO;
 	
-	@Autowired
-	private CandidateDAO candidateDAO;
-
 	private Map<String, String> election = new HashMap<String, String>();
-	
+
+	/**
+	 * 將網頁導向「AreaResult.jsp」(「選區投票結果查詢」網頁)
+	 */
 	@Action(value = "/areaResult", results = { @Result(location = "/jsp/AreaResult.jsp", name = "success") })
 	public String execute() throws Exception {
-    	List<Election> list = electionDAO.findAll();
-    	for(Election item:list) {
-    		election.put(item.getId(), item.getName());
-    	}
-		
         return SUCCESS;
     }
 
-    @Action(value = "/findElection", results = { @Result(name = "success", type = "json") })
+	/**
+	 * 傳回選舉場次
+	 * @return
+	 */
+    @Action(value = "/findElection", results = { @Result(name = "input", type = "json") })
     public String findElection() {
     	List<Election> list = electionDAO.findAll();
     	for(Election item:list) {
     		election.put(item.getId(), item.getName());
     	}
         
-        return SUCCESS;
+        return INPUT;
     }
+    
+	/**
+	 * 傳回縣市
+	 * @return
+	 */
+    @Action(value = "/findCityName", results = { @Result(name = "input", type = "json") })
+    public String findCityName() {
+    	List<Election> list = electionDAO.findAll();
+    	for(Election item:list) {
+    		election.put(item.getId(), item.getName());
+    	}
+        
+        return INPUT;
+    }
+
+    
 
 	public Map<String, String> getElection() {
 		return election;
 	}
 
-	public void setElection(Map<String, String> election) {
-		this.election = election;
-	}
 }

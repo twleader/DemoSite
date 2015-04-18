@@ -43,7 +43,6 @@
       </property>
       <property name="mapperLocations">
           <list>
-              <value>classpath*:idv/steven/demo/dao/CandidateDAO.xml</value>
               <value>classpath*:idv/steven/demo/dao/ElectionDAO.xml</value>
           </list>
       </property>

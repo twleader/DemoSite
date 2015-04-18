@@ -12,30 +12,55 @@
 <body>
 
 <s:url var="findElection" action="findElection" />
-<s:url var="remoteurl" action="showStock" />
+<s:url var="findCityName" action="findCityName" />
+<s:url var="findAreaName" action="findAreaName" />
+<s:url var="remoteurl" action="showAreaResult" />
 
 <s:form id="formaAreaResult" theme="xhtml">
-    
+    選擇場次: 
 	<sj:select
         href="%{findElection}"
-        id="echo"
-        name="echo"
-        list="electionID"
+        id="electionID"
+        name="electionID"
+        list="election"
         emptyOption="false"
         headerKey="-1"
-        headerValue="請選擇"/>
+        headerValue="請選擇"
+        onChangeTopics="reloadCityName"
+    /><br/>
 
+	縣市: 
+	<sj:select
+        href="%{findCityName}"
+        id="cityName"
+        name="cityName"
+        list="cityName"
+        emptyOption="false"
+        headerKey="-1"
+        headerValue="請選擇"
+        reloadTopics="reloadCityName"
+    /><br/>
+        
+	選區: <sj:select
+        href="%{findAreaName}"
+        id="areaName"
+        name="areaName"
+        list="areaName"
+        emptyOption="false"
+        headerKey="-1"
+        headerValue="請選擇"/><br/>
+        
     <sj:submit 
         href="%{remoteurl}"
-        targets="stockPrice" 
-        value="送出" 
+        targets="showAreaResult" 
+        value="查詢" 
         indicator="indicator"
         button="true"
     />
     
 </s:form>
 
-<sj:div id="stockPrice" />
+<sj:div id="showAreaResult" />
 
 </body>
 </html>
