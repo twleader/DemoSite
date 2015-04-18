@@ -29,6 +29,7 @@
 	<properties>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<struts.version>2.3.20</struts.version>
+		<struts.jquery.version>3.7.1</struts.jquery.version>
 	</properties>
 	
 	<dependencies>
@@ -89,8 +90,14 @@
 		<dependency>
 			<groupId>com.jgeppert.struts2.jquery</groupId>
 			<artifactId>struts2-jquery-plugin</artifactId>
-			<version>3.7.1</version>
+			<version>${struts.jquery.version}</version>
 		</dependency>
+		
+	    <dependency>
+	        <groupId>com.jgeppert.struts2.jquery</groupId>
+	        <artifactId>struts2-jquery-grid-plugin</artifactId>
+	        <version>${struts.jquery.version}</version>
+	    </dependency>
 	  
 		<dependency>
 			<groupId>org.mybatis</groupId>

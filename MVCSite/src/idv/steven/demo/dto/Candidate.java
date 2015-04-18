@@ -128,4 +128,12 @@ public class Candidate {
 	public void setElected(char elected) {
 		this.elected = elected;
 	}
+
+	@Override
+	public String toString() {
+		return "Candidate [electionID=" + electionID + ", cityName=" + cityName
+				+ ", areaName=" + areaName + ", votedNo=" + votedNo + ", name="
+				+ name + ", partyName=" + partyName + ", votes=" + votes
+				+ ", elected=" + elected + "]";
+	}
 }

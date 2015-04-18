@@ -17,38 +17,44 @@
 <s:url var="remoteurl" action="showAreaResult" />
 
 <s:form id="formaAreaResult" theme="xhtml">
-    選擇場次: 
 	<sj:select
+		label="選擇場次"
         href="%{findElection}"
         id="electionID"
         name="electionID"
-        list="election"
+        list="electionList"
         emptyOption="false"
         headerKey="-1"
         headerValue="請選擇"
         onChangeTopics="reloadCityName"
-    /><br/>
+    /> 
 
-	縣市: 
 	<sj:select
+		label="縣市"	
         href="%{findCityName}"
         id="cityName"
         name="cityName"
-        list="cityName"
+        list="cityNameList"
         emptyOption="false"
         headerKey="-1"
         headerValue="請選擇"
         reloadTopics="reloadCityName"
+        onChangeTopics="reloadAreaName"
     /><br/>
         
-	選區: <sj:select
+	<sj:select
+		label="選區"	
         href="%{findAreaName}"
         id="areaName"
         name="areaName"
-        list="areaName"
+        list="areaNameList"
         emptyOption="false"
         headerKey="-1"
-        headerValue="請選擇"/><br/>
+        headerValue="請選擇"
+        reloadTopics="reloadAreaName"
+    />
+</s:form>
+
         
     <sj:submit 
         href="%{remoteurl}"
@@ -57,8 +63,8 @@
         indicator="indicator"
         button="true"
     />
-    
-</s:form>
+
+<br/><br/>
 
 <sj:div id="showAreaResult" />
 
