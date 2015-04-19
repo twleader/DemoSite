@@ -15,9 +15,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+@Controller
 public class AreaResultAction extends ActionSupport {
 	private static final long serialVersionUID = -213699129575326012L;
 	final static Logger logger = LoggerFactory.getLogger(AreaResultAction.class);

@@ -53,6 +53,6 @@
         p:basePackage="idv.steven.demo.dao"
     />
     
-    <context:component-scan base-package="idv.steven.demo.dto" />
+    <context:component-scan base-package="idv.steven.demo.dto,idv.steven.demo.action" />
 
 </beans>
