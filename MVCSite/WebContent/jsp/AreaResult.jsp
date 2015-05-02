@@ -7,6 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>選區投票結果查詢</title>
+	<script type="type/javascript" src="../scripts/jquery-1.11.2.min.js"></script>
 	<sj:head jqueryui="true"/>
 </head>
 <body>
@@ -15,6 +16,7 @@
 <s:url var="findCityName" action="findCityName" />
 <s:url var="findAreaName" action="findAreaName" />
 <s:url var="remoteurl" action="showAreaResult" />
+<s:url var="saveurl" action="saveVotes" />
 
 <s:form id="formaAreaResult" theme="xhtml">
 	<sj:select
@@ -53,6 +55,8 @@
         headerValue="請選擇"
         reloadTopics="reloadAreaName"
     />
+    
+    <sj:textfield label="得票數" id="votes" name="votes" />
 </s:form>
 
         
@@ -60,6 +64,14 @@
         href="%{remoteurl}"
         targets="showAreaResult" 
         value="查詢" 
+        indicator="indicator"
+        button="true"
+    />
+    
+    <sj:submit 
+        href="%{saveurl}"
+        targets="showAreaResult" 
+        value="儲存" 
         indicator="indicator"
         button="true"
     />
