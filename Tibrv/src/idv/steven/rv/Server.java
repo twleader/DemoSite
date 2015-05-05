@@ -1,13 +1,14 @@
  package idv.steven.rv;
  
  import com.tibco.tibrv.Tibrv;
- import com.tibco.tibrv.TibrvException;
- import com.tibco.tibrv.TibrvListener;
- import com.tibco.tibrv.TibrvMsg;
- import com.tibco.tibrv.TibrvMsgCallback;
- import com.tibco.tibrv.TibrvMsgField;
- import com.tibco.tibrv.TibrvRvdTransport;
- import com.tibco.tibrv.TibrvTransport;
+import com.tibco.tibrv.TibrvException;
+import com.tibco.tibrv.TibrvListener;
+import com.tibco.tibrv.TibrvMsg;
+import com.tibco.tibrv.TibrvMsgCallback;
+import com.tibco.tibrv.TibrvMsgField;
+import com.tibco.tibrv.TibrvQueue;
+import com.tibco.tibrv.TibrvRvdTransport;
+import com.tibco.tibrv.TibrvTransport;
  
  public class Server implements TibrvMsgCallback {
      private TibrvTransport transport = null;
@@ -33,10 +34,16 @@
              
              transport = new TibrvRvdTransport(service,network,daemon);
              subject = args[args.length-1];
-             new TibrvListener(Tibrv.defaultQueue(), this, transport, subject, null);
+             
+             TibrvQueue queue = new TibrvQueue();
+             queue.setPriority(10);
+             queue.setName("MyQueue");
+             queue.setLimitPolicy(TibrvQueue.DISCARD_LAST, 100, 1);
+             
+             new TibrvListener(queue, this, transport, subject, null);
              
              while (!eventReceived) {
-                 eventReceived = Tibrv.defaultQueue().timedDispatch(server_timeout);
+                 eventReceived = queue.timedDispatch(server_timeout);
                  if (eventReceived) {
                      System.out.println("receive a message");
                  }
