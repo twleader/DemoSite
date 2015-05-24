@@ -39,6 +39,12 @@ public class CenterImport  extends ImportExcel {
 		
 		File folder = new File(folderName);
 		File[] listOfFiles = folder.listFiles();
+		
+		if (listOfFiles == null) {
+			System.out.println("目錄裡沒有任何檔案!");
+			return;
+		}
+		
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	    	if (listOfFiles[i].isFile()) {
 	    		try {
@@ -340,9 +346,9 @@ public class CenterImport  extends ImportExcel {
 	}
 
 	public static void main(String[] args) {
-		//String folderName = "D:/DemoSite/doc/2014縣市議員";
+		String folderName = "D:/DemoSite/doc/2014縣市議員";
 		//String folderName = "D:/DemoSite/doc/Test";
-		String folderName = "D:/DemoSite/doc/2012立法委員";
+		//String folderName = "D:/DemoSite/doc/2012立法委員";
 				
 		context = new ClassPathXmlApplicationContext("beans-config.xml");
 		CenterImport centerImport = (CenterImport) context.getBean("centerImport");

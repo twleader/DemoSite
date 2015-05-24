@@ -15,6 +15,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 /**
  * 縣市議員選舉
  * @author Steven
@@ -25,6 +27,12 @@ public class Aldermanry extends ImportExcel {
 		try {
 			File folder = new File("D:/DemoSite/doc/2014縣市議員");
 			File[] listOfFiles = folder.listFiles();
+			
+			if (listOfFiles == null) {
+				System.out.println("目錄裡沒有任何檔案!");
+				return;
+			}
+			
 		    for (int i = 0; i < listOfFiles.length; i++) {
 		    	if (listOfFiles[i].isFile()) {
 		    		String filename = listOfFiles[i].getName();

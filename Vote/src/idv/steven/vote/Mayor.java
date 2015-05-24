@@ -13,7 +13,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Mayor extends ImportExcel {
@@ -22,6 +21,12 @@ public class Mayor extends ImportExcel {
 	public void run() {
 		File folder = new File("D:/DemoSite/doc/2014縣市長選舉");
 		File[] listOfFiles = folder.listFiles();
+		
+		if (listOfFiles == null) {
+			System.out.println("目錄裡沒有任何檔案!");
+			return;
+		}
+		
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	    	if (listOfFiles[i].isFile()) {
 	    		try {
