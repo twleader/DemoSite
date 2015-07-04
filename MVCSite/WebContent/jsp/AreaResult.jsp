@@ -20,7 +20,7 @@
 
 <s:form id="formaAreaResult" theme="xhtml">
 	<sj:select
-		label="選擇場次"
+		label="選舉場次"
         href="%{findElection}"
         id="electionID"
         name="electionID"

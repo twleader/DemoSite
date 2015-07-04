@@ -49,15 +49,16 @@ public class AreaResultActionTest extends StrutsSpringTestCase {
 		//初始化 http 相關環境變數 request、response ...
 		initServletMockObjects();
 		
+		//jsp要submit那些欄位的資料到action? 透過 request.setParameter傳入。
 		request.setParameter("electionID", "201201");
 		executeAction("/findCityName");
 		
+		//執行完action，取得action物件。
 		AreaResultAction action = (AreaResultAction) ActionContext.getContext().getActionInvocation().getAction();
+		//jsp網頁中，縣市的下拉選單呼叫 cityNameList 取得縣市資料。
 		Map<String, String> cities = action.getCityNameList();
 		for(String city:cities.keySet()) {
 			System.out.println(city);
 		}
-		
 	}
-
 }
